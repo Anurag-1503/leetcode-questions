@@ -1,25 +1,21 @@
 class Solution {
     public String[] sortPeople(String[] names, int[] heights) {
+        String result[]= new String[names.length];
         
-        String[] result=new String[names.length];
+        HashMap<Integer , String> map= new HashMap<>();
         
-        for( int i=0 ;i<names.length; i++)
+        for(int i=0; i<names.length;i++)
+            map.put(heights[i],names[i]);
+        
+        Arrays.sort(heights);
+        
+        int index=0;
+        for(int i= heights.length-1;i>=0;i--)
         {
-            int maxHeight = Integer.MIN_VALUE;
-            for(int j : heights )
-            {
-                maxHeight = Math.max(maxHeight,j);
-            }
-            for(int j=0 ;j<names.length; j++)
-            {
-                if(heights [j]==maxHeight)
-                {
-                    heights [j]=-1;
-                    result[i]=names[j];
-                    break;
-                }
-            }
+            result[index]=map.get(heights[i]);
+            index++;
         }
         return result;
+        
     }
 }
