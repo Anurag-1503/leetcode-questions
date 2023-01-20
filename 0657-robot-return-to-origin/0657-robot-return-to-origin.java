@@ -5,11 +5,11 @@ class Solution {
         {
             if(moves.charAt(i)=='U')
                 u++;
-            if(moves.charAt(i)=='D')
+            else if(moves.charAt(i)=='D')
                 u--;
-            if(moves.charAt(i)=='L')
+            else if(moves.charAt(i)=='L')
                 l++;
-            if(moves.charAt(i)=='R')
+            else if(moves.charAt(i)=='R')
                 l--;
             
         }
