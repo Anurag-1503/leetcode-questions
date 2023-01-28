@@ -29,10 +29,10 @@ class Solution {
         for(int j=arr.length-1;j>i;j--)
             ans.append(arr[j]);
         
-        long ans_ = Long.parseLong(ans.toString());
+        long res = Long.parseLong(ans.toString());
         
         //returning ans if it is valid and fits in 32-bit integer else return -1
-        return (ans_ > Integer.MAX_VALUE) ? -1 : (int)ans_;
+        return (res > Integer.MAX_VALUE) ? -1 : (int)res;
         
         
     }
