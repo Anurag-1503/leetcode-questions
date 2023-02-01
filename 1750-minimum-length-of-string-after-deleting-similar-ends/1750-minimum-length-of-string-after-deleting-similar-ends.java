@@ -8,7 +8,7 @@ class Solution {
         {
             char check=s.charAt(l);
             
-            while(l<=r && check==s.charAt(l))
+            while(l<r && check==s.charAt(l))
                 l++;
             while(l<=r && check==s.charAt(r))
                 r--;
