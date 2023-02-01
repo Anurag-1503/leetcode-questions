@@ -8,9 +8,11 @@ class Solution {
             char c2 = s.charAt(right);
             
         
-            if (!Character.isLetterOrDigit(c1)) left++;
+            if (!Character.isLetterOrDigit(c1)) 
+                left++;
          
-            else if (!Character.isLetterOrDigit(c2)) right--;
+            else if (!Character.isLetterOrDigit(c2)) 
+                right--;
           
             else{
                 if (Character.toLowerCase(c1) != Character.toLowerCase(c2))                         return false;    
