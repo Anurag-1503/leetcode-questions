@@ -4,14 +4,14 @@ class Solution {
 		PriorityQueue<Integer> pq=new PriorityQueue<Integer>();
 		for(int i=0;i<k;i++)
 		{
-			pq.add(nums[i]);
+			pq.offer(nums[i]);
 		}
 
 		for(int i=k;i<nums.length;i++)
 		{
 			if(nums[i]>pq.peek()){
 				pq.poll();
-				pq.add(nums[i]);
+				pq.offer(nums[i]);
 			}
 		}
 
