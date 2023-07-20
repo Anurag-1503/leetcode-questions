@@ -1,14 +1,23 @@
 class Solution {
     public int rob(int[] nums) {
-        int prev1 = nums[0];  // For value at i-1 index
-		int prev2 = 0; // For value at i-2 index
-        for(int i = 1; i<nums.length; i++){
-            int pick = nums[i] + prev2;
-            int notPick = 0 + prev1;
-            int curr = Math.max(pick, notPick);
-            prev2 = prev1;
-            prev1 = curr;
-        }
-        return prev1;
+        
+        int[] dp = new int[nums.length+1];
+        Arrays.fill(dp,-1);
+        int max = findmax(nums.length-1,nums,dp);
+        
+        return max;
+        
+        
+    }
+    
+    public int findmax(int index , int[] nums, int[] dp){
+        if(index == 0) return nums[index];
+        if(index<0) return 0;
+        if(dp[index]!=-1) return dp[index];
+        
+        int pick = findmax(index-2,nums,dp) + nums[index];
+        int notpick = findmax(index-1,nums,dp);
+        
+        return dp[index] = Math.max(pick,notpick);
     }
 }
