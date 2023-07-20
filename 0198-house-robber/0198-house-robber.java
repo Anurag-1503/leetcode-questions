@@ -2,22 +2,21 @@ class Solution {
     public int rob(int[] nums) {
         
         int[] dp = new int[nums.length+1];
-        Arrays.fill(dp,-1);
-        int max = findmax(nums.length-1,nums,dp);
+        dp[0] = nums[0];
         
-        return max;
+        for(int i = 1 ; i < nums.length ; i++)
+            
+            {
+                int pick = nums[i];
+                if(i>1)
+                    pick+=dp[i - 2];
+                int notpick = dp[i-1];
+            
+            dp[i] = Math.max(pick,notpick);
+            }
         
+        return dp[nums.length-1];
         
-    }
-    
-    public int findmax(int index , int[] nums, int[] dp){
-        if(index == 0) return nums[index];
-        if(index<0) return 0;
-        if(dp[index]!=-1) return dp[index];
-        
-        int pick = findmax(index-2,nums,dp) + nums[index];
-        int notpick = findmax(index-1,nums,dp);
-        
-        return dp[index] = Math.max(pick,notpick);
-    }
+
+}
 }
