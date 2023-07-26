@@ -2,32 +2,35 @@ class Solution
 {
     public int minPathSum(int[][] grid) 
     {
-        int m = grid.length;
-        int n = grid[0].length;
+        int m = grid.length;//row
+        int n = grid[0].length;//column
         
-        //Initialisation
+       
         int[][] dp = new int[m][n];
         
-        //Base Case Transformation
+        
         
         dp[0][0] = grid[0][0];
-        for(int i=1;i<n;i++)
-        {
-            dp[0][i]  = dp[0][i-1] + grid[0][i];
-        }
-        
-        for(int i=1;i<m;i++)
-        {
-            dp[i][0]  = dp[i-1][0] + grid[i][0];
-        }
-        
-        //Main logic
-        
-        for(int i=1;i<m;i++)
-        {
-            for(int j=1;j<n;j++)
-            {
-                dp[i][j] = Math.min(dp[i][j-1] , dp[i-1][j]) + grid[i][j];
+        for(int i = 0;i < m;i++){
+            for(int j = 0;j < n; j++){
+                if(i == 0 && j == 0) dp[i][j] = grid[i][j];
+                else{
+                    int up = grid[i][j];
+                    if(i>0)
+                        up+=dp[i-1][j];
+                    else
+                        up+=(int)Math.pow(10,9);
+                    
+                    int left = grid[i][j];
+                    if(j>0)
+                        left+=dp[i][j-1];
+                    else
+                        left+=(int)Math.pow(10,9);
+                    
+                    dp[i][j] = Math.min(up,left);
+                
+                    
+                }
             }
         }
         return dp[m-1][n-1];
