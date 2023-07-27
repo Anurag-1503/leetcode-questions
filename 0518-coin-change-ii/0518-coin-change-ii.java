@@ -1,30 +1,29 @@
 class Solution {
-    public int change(int amount, int[] coins) {
-        
-        
-        int n = coins.length;
-        int[][] dp = new int[n][amount+1];
-        for(int[] rows:dp){
-            Arrays.fill(rows,-1);
-        }
-        return MaxWays(n-1,amount,coins,dp);
-        
+    public int change(int T, int[] arr) {
+        int n = arr.length;
+        int dp[][]=new int[n][T+1];
+    
+    
+    //Initializing base condition
+    for(int i=0;i<=T;i++){
+        if(i%arr[0]==0)
+            dp[0][i]=1;
+        // Else condition is automatically fulfilled,
+        // as dp array is initialized to zero
     }
     
-    public int MaxWays(int index, int target,int[] coins, int[][] dp){
-        
-        if(index == 0) {
-            if(target%coins[index]==0) return 1;
-            else
-                return 0;
+    for(int ind=1; ind<n;ind++){
+        for(int target=0;target<=T;target++){
+            int notTaken = dp[ind-1][target];
+            
+            int taken = 0;
+            if(arr[ind]<=target)
+                taken = dp[ind][target-arr[ind]];
+                
+            dp[ind][target] = notTaken + taken;
         }
-        if(dp[index][target]!=-1) return dp[index][target];
-        int notTake = MaxWays(index-1,target,coins,dp);
-        int take = 0;
-        if(coins[index]<=target)
-            take = MaxWays(index,target-coins[index],coins,dp);
-        
-        return dp[index][target] = notTake+take;
-        
+    }
+    
+    return dp[n-1][T];
     }
 }
