@@ -1,28 +1,30 @@
 class Solution {
-    public int minDistance(String word1, String word2) {
+    public int minDistance(String s1, String s2) {
         
-        int[][] dp = new int[word1.length()][word2.length()];
-        for(int[] rows : dp)
-            Arrays.fill(rows,-1);
-      
-        return editDistanceUtil(word1, word2, 0, 0, dp);
-    }
+        int m = s1.length();
+        int n = s2.length();
+        int[][] dp = new int[m+1][n+1];
+    
+        
+        for(int i = 0; i<=m;i++){
+            dp[i][0] =  i;
+        }
+        for(int j = 0; j<=n;j++){
+            dp[0][j] = j;
+        }
+        
+        for(int i=1;i<m+1;i++){
+            for(int j=1;j<n+1;j++){
+                if(s1.charAt(i-1)==s2.charAt(j-1))
+                    dp[i][j] = 0+dp[i-1][j-1];
+            
+                else dp[i][j] = 1+Math.min(dp[i-1][j-1],Math.min(dp[i-1][j],dp[i][j-1]));
+            }
+        }
 
-    static int editDistanceUtil(String S1, String S2, int i, int j, int[][] dp) {
-        if (i >= S1.length())
-            return S2.length() - j;
-        if (j >= S2.length())
-            return S1.length() - i;
-        if(dp[i][j]!=-1) return dp[i][j];
+        
 
-        if (S1.charAt(i) == S2.charAt(j))
-            return dp[i][j] = editDistanceUtil(S1, S2, i + 1, j + 1, dp);
-
-        int insert = editDistanceUtil(S1, S2, i, j + 1, dp);
-        int delete = editDistanceUtil(S1, S2, i + 1, j, dp);
-        int replace = editDistanceUtil(S1, S2, i + 1, j + 1, dp);
-
-        return dp[i][j] = 1 + Math.min(insert, Math.min(delete, replace));
+        return dp[m][n];
     }
 }
 
