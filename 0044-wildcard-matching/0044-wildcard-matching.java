@@ -3,57 +3,45 @@ class Solution {
         int n = p.length();
         int m = s.length();
         
-        int[][] dp = new int[n][m];
-        for (int[] row: dp) {
-            Arrays.fill(row, -1);
-        }
-        
-        return f(n - 1, m - 1, p, s, dp);
-    }
-    
-    private boolean f(int i, int j, String p, String s, int[][] dp) {
+        boolean[][] dp = new boolean[n + 1][m + 1];
         
         // Base Case
+        dp[0][0] = true;
         
-        // if both strings get exhausted
-        if (i < 0 && j < 0) return true;
+        for (int j = 1; j <= m; j++) {
+            dp[0][j] = false;
+        }
         
-        // if one get exhausted and other didn't
-        if (i < 0 && j >= 0) return false;
-        
-        // if p is left, it has to be all '*'
-        if (j < 0 && i >= 0) {
-            for (int k = 0; k <= i; k++) {
-                if (p.charAt(k) != '*') {
-                    return false;
+        for (int i = 1; i <= n; i++) {
+            boolean flag = true;
+            for (int k = 1; k <= i; k++) {
+                if (p.charAt(k - 1) != '*') {
+                    flag = false;
+                    break;
                 }
             }
-            return true;
+            dp[i][0] = flag;
         }
         
         
-        if (dp[i][j] != -1) {
-            return dp[i][j] == 1 ? true : false;
+        
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                // If match found or '?' is found 
+                if (p.charAt(i - 1) == s.charAt(j - 1) || p.charAt(i - 1) == '?') {
+                    dp[i][j] = dp[i - 1][j - 1];
+                }
+
+                // if it is a '*'
+                else if (p.charAt(i - 1) == '*') {
+                    dp[i][j] = dp[i - 1][j] || dp[i][j - 1];
+                }
+
+                // No match found
+                else dp[i][j] = false;
+            }
         }
         
-        // If match found or '?' is found 
-        if (p.charAt(i) == s.charAt(j) || p.charAt(i) == '?') {
-            boolean flag = f(i - 1, j - 1, p, s, dp);
-            dp[i][j] = (flag == true) ? 1 : 0;
-            
-            return flag;
-        }
-        
-        // if it is a '*'
-        if (p.charAt(i) == '*') {
-            boolean flag = f (i - 1, j, p, s, dp) || f (i, j - 1, p, s, dp);
-            dp[i][j] = (flag == true) ? 1 : 0;
-            
-            return flag;
-        }
-        
-        // No match found
-        dp[i][j] = 0;
-        return false;
+        return dp[n][m];
     }
 }
