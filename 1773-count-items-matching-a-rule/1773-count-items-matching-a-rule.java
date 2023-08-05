@@ -1,27 +1,29 @@
 class Solution {
     public int countMatches(List<List<String>> items, String ruleKey, String ruleValue) {
-    
-        int ans=0;
+        
+        int count = 0;
+        int n = items.size();
         if(ruleKey.equals("type"))
-            {
-            for(int i =0; i< items.size(); i++){
+        {
+            for(int i = 0 ; i < n ; i++){
                 if(items.get(i).get(0).equals(ruleValue))
-                    ans++;
+                    count++;
             }
-            }
-        else if (ruleKey.equals("color"))
-            {
-            for(int i =0; i< items.size(); i++){
+        }
+        if(ruleKey.equals("color"))
+        {
+            for(int i = 0 ; i < n ; i++){
                 if(items.get(i).get(1).equals(ruleValue))
-                    ans++;
+                    count++;
             }
-            }
-        else
-            for(int i =0; i< items.size(); i++){
+        }
+        if(ruleKey.equals("name"))
+        {
+            for(int i = 0 ; i < n ; i++){
                 if(items.get(i).get(2).equals(ruleValue))
-                    ans++;
+                    count++;
             }
-            
-        return ans;
+        }
+        return count;
     }
 }
