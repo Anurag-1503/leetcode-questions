@@ -1,20 +1,23 @@
 class Solution {
     public List<Integer> addToArrayForm(int[] num, int k) {
-    LinkedList<Integer> result = new LinkedList<>();
-    int len = num.length - 1;
-    
-    while(len >= 0 || k != 0){
         
-        if(len >= 0){
-            k += num[len];
-			len--;
+        int n  = num.length;
+        int i = n-1;
+        List<Integer> ans = new ArrayList<>();
+        while(i >= 0 || k > 0){
+            if(i >= 0)
+            {
+                ans.add((num[i]+k)%10);
+                k = (num[i] + k)/10;
+            }
+            else
+            {
+                ans.add(k%10);
+                k /= 10;
+            }
+            i--;
         }
-        
-        result.addFirst(k % 10);
-        k /= 10;
+        Collections.reverse(ans);
+        return ans;
     }
-        
-    return result;
-    
-}
 }
