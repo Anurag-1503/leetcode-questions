@@ -1,24 +1,30 @@
 class Solution {
     public int rob(int[] nums) {
         
-        int prev = nums[0];
-        int prev2 = 0;
+        int n = nums.length;
+        
+        int[] dp = new int[n];
+        Arrays.fill(dp,-1);
+        
+        return helper(0,nums,dp);
+        
+    }
     
-        for(int i = 1 ; i < nums.length ; i++)
-            
-            {
-                int pick = nums[i];
-                if(i>1)
-                    pick+=prev2;
-                int notpick = prev;
-            
-            int curr = Math.max(pick,notpick);
-            prev2 = prev;
-            prev = curr;
-            }
+    public int helper(int index, int[] nums, int[] dp){
         
-        return prev;
+        int n = nums.length;
         
-
-}
+        if(index == n-1)
+            return nums[index];
+        
+        if(index > n-1)
+            return 0;
+        
+        if(dp[index]!=-1) return dp[index];
+        
+        int take = nums[index] + helper(index+2,nums,dp);
+        int nottake = 0 + helper(index+1,nums,dp);
+        
+        return dp[index] = Math.max(take,nottake);
+    }
 }
