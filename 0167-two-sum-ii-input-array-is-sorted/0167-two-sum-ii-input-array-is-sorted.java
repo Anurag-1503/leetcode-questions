@@ -1,21 +1,31 @@
 class Solution {
     public int[] twoSum(int[] numbers, int target) {
-        return findPair(numbers, target, 0, numbers.length - 1);
         
+        for(int i = 0; i < numbers.length ; i++){
+            int complement = target - numbers[i];
+            int index = binarySearch(numbers, complement , i+1);
+            if(index != -1)
+                return new int[]{i+1,index+1};
+            
+        }
+        return new int[]{-1,-1};
     }
     
-        private int[] findPair(int[] numbers, int target, int left, int right) {
-        if (left >= right) {
-            return null; // No solution found
-        }
+    public int binarySearch(int[] numbers, int target, int index){
+        int start = index;
+        int end = numbers.length-1;
         
-        int sum = numbers[left] + numbers[right];
-        if (sum == target) {
-            return new int[]{left + 1, right + 1}; 
-        } else if (sum < target) {
-            return findPair(numbers, target, left + 1, right);
-        } else {
-            return findPair(numbers, target, left, right - 1);
+        while(start <= end){
+            int mid = start + (end - start)/2;
+            if(numbers[mid] == target)
+                return mid;
+            else if(numbers[mid] > target){
+                end = mid - 1;
+            }
+            else
+                start = mid + 1;
         }
+        return -1;
+        
     }
 }
