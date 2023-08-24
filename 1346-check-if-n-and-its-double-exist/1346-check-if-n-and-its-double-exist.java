@@ -1,36 +1,37 @@
 class Solution {
     public boolean checkIfExist(int[] arr) {
         
-         int n = arr.length;
+        int n = arr.length;
+        
         Arrays.sort(arr);
         
-        for (int i = 0; i < n; i++) {
+        for(int i = 0; i < n; i++){
             int target = 2 * arr[i];
+            //use binary search
             
-            int index = binarySearch(arr, target, 0, n - 1);
+            int index = binarySearch(arr,target,0,n-1);
             
-            if (index != -1 && index != i) {
+            if(index != -1 && index != i)
                 return true;
-            }
         }
         return false;
         
     }
     
     public int binarySearch(int[] arr, int target, int start, int end){
-       int left = start;
+        int left = start;
         int right = end;
         
-        while (left <= right) {
-            int mid = left + (right - left) / 2;
+        while(left <= right){
+            int mid = left + (right - left)/2;
             
-            if (arr[mid] == target) {
+            if(arr[mid] == target)
                 return mid;
-            } else if (arr[mid] < target) {
-                left = mid + 1;
-            } else {
+            else if (arr[mid] > target){
                 right = mid - 1;
             }
+            else
+                left = mid + 1;
         }
         
         return -1;
