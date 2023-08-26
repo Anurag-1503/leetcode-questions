@@ -1,18 +1,24 @@
 class Solution {
     public int singleNonDuplicate(int[] nums) {
         
-        Map<Integer, Integer> fmap = new HashMap<>();
+        int n = nums.length;
         
-        for(int num : nums){
-            fmap.put(num, fmap.getOrDefault(num,0)+1);
-        }
+        if(n == 1) return nums[0];
         
-        for(Map.Entry<Integer, Integer> entry : fmap.entrySet()){
-            if(entry.getValue() == 1){
-                return entry.getKey();
+        for(int i = 0 ; i < n ; i++){
+            if(i == 0){
+                if(nums[i] != nums[i+1])
+                    return nums[i];
+            }  
+            else if (i == n-1){
+                if(nums[i] != nums[i-1])
+                    return nums[i];
+            } 
+            else{
+                if(nums[i] != nums[i-1] && nums[i] != nums[i+1])
+                    return nums[i];
             }
         }
-        
         return -1;
     }
 }
