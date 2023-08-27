@@ -1,27 +1,15 @@
 class Solution {
     public int findMin(int[] nums) {
         
-        int n = nums.length;
-        
-        int start = 0;
-        int end =  n-1;
-        int ans = Integer.MAX_VALUE;
-        
-        while(start <= end){
-            int mid = start + (end - start)/2;
-            
-            if(nums[mid] >= nums[start])
-            {
-                
-                ans = Math.min(ans , nums[start]);
-                start = mid + 1;
-            }
-            
-            else{
-                ans = Math.min(ans,nums[mid]);
-                end = mid - 1;
-            }
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, 1);
         }
-        return ans;
+        int minValue = Integer.MAX_VALUE;
+        for (int num : map.keySet()) {
+            minValue = Math.min(minValue, num);
+        }
+        return minValue;
+        
     }
 }
