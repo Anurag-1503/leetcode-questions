@@ -1,15 +1,26 @@
 class Solution {
     public int[] plusOne(int[] digits) {
+        
+        List<Integer> ans = new ArrayList<>();
+        int k = 1;
         int n = digits.length;
-        for(int i = n-1 ; i >= 0; i--){
-            if(digits[i] < 9){
-                digits[i]++;
-                return digits;
-            }
-            digits[i] = 0;
+        for(int i = n-1 ; i >= 0 ; i--){
+            ans.add(0,(digits[i]+k)%10);
+            k = (digits[i] + k)/10;
         }
-        int [] new_num = new int[n+1];
-        new_num[0] = 1;
-        return new_num;
+        
+        while(k > 0){
+            ans.add(0,k%10);
+            k /= 10;
+        }
+        
+        int[] res = new int[ans.size()];
+        for (int i = 0; i < ans.size(); i++) {
+            res[i] = ans.get(i);
+        }
+
+        
+        return res;
+        
     }
 }
