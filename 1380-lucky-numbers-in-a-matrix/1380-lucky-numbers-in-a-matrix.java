@@ -1,38 +1,40 @@
 class Solution {
     public List<Integer> luckyNumbers (int[][] matrix) {
-        int[] minRows = new int[matrix.length];
-        int[] maxCols = new int[matrix[0].length];
         
-        // Find minimum elements in each row
+        // Find the minimum element from each row and put them in a list
+        List<Integer> min = new ArrayList<>();
         for (int i = 0; i < matrix.length; i++) {
-            int min = Integer.MAX_VALUE;
+            int minimum = Integer.MAX_VALUE;
             for (int j = 0; j < matrix[0].length; j++) {
-                min = Math.min(min, matrix[i][j]);
+                if (matrix[i][j] < minimum) {
+                    minimum = matrix[i][j];
+                }
             }
-            minRows[i] = min;
+            min.add(minimum);
         }
         
-        // Find maximum elements in each column
+        // Find the maximum elements from each column and put them in a list
+        List<Integer> max = new ArrayList<>();
         for (int j = 0; j < matrix[0].length; j++) {
-            int max = Integer.MIN_VALUE;
+            int maximum = Integer.MIN_VALUE;
             for (int i = 0; i < matrix.length; i++) {
-                max = Math.max(max, matrix[i][j]);
+                if (matrix[i][j] > maximum) {  // Fix: Corrected index to matrix[i][j]
+                    maximum = matrix[i][j];
+                }
             }
-            maxCols[j] = max;
+            max.add(maximum);
         }
         
-        // Find the lucky numbers
-        List<Integer> luckyNumbers = new ArrayList<>();
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j] == minRows[i] && matrix[i][j] == maxCols[j]) {
-                    luckyNumbers.add(matrix[i][j]);
+        // Find the common elements and put them in a separate list
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < min.size(); i++) {
+            for (int j = 0; j < max.size(); j++) {
+                if (min.get(i).equals(max.get(j))) {
+                    result.add(min.get(i));
                 }
             }
         }
         
-        return luckyNumbers;
-        
-        
+        return result;
     }
 }
