@@ -15,15 +15,19 @@ public class Solution extends GuessGame {
         
         while(start <= end){
             
-            int mid = start + ((end - start) / 2);
+            int mid = start + ((end - start)/2);
             int result = guess(mid);
+            
             if(result == 0)
                 return mid;
             if(result > 0)
                 start = mid + 1;
             else
                 end = mid - 1;
+            
         }
+        
         return -1;
+        
     }
 }
