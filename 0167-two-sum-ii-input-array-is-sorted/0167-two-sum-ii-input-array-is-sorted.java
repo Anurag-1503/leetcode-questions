@@ -1,18 +1,21 @@
 class Solution {
     public int[] twoSum(int[] numbers, int target) {
         
-        Map<Integer , Integer> map = new HashMap<>();
+        int start = 0;
+        int end = numbers.length - 1;
         
-        for(int i = 0 ; i < numbers.length ; i++){
+        while(start <= end){
             
-            int complement = target - numbers[i];
-            if(map.containsKey(complement))
-                return new int[]{map.get(complement)+1 , i+1};
+            int sum = numbers[start] + numbers[end];
             
-            map.put(numbers[i] , i);
+            if(sum > target)
+                end--;
+            else if(sum < target)
+                start++;
+            else
+                return new int[] {start + 1, end + 1};
         }
         
-        return new int[] {};
-        
+        return new int[] {-1,-1};
     }
 }
