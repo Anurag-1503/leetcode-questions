@@ -1,34 +1,21 @@
-public class Solution {
-
+class Solution {
     public char findKthBit(int n, int k) {
-        List<String> arr = new ArrayList<>();
-        arr.add("0");
-
-        for (int i = 1; i <= n; i++) {
-            String temp = arr.get(arr.size() - 1);
-            StringBuilder str = new StringBuilder();
-            str.append(temp).append("1").append(invertAndReverse(temp));
-            arr.add(str.toString());
+        //Base Condition
+        if(n == 1){
+            return '0';
         }
-
-        String result = arr.get(n - 1);
-        return result.charAt(k - 1);
-    }
-
-    private String invertAndReverse(String str) {
-        StringBuilder result = new StringBuilder(str.length());
-
-        for (int i = 0; i < str.length(); i++) {
-            char currentChar = str.charAt(i);
-
-            if (currentChar == '0') {
-                result.append('1');
-            } else if (currentChar == '1') {
-                result.append('0');
-            }
+        
+        int numberOfColumns = (int)Math.pow(2,n) - 1;
+        int mid = numberOfColumns/2;
+                
+        if(k <= mid)
+            return findKthBit(n-1,k);
+        else if (k == mid + 1)//Since we are adding that extra "1" in each new row
+            return '1';
+        else {
+           k = numberOfColumns - k + 1;
+           char c = findKthBit(n-1,k);
+           return c == '0' ? '1' : '0';
         }
-
-        return result.reverse().toString();
     }
-
 }
