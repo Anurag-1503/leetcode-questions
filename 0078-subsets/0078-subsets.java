@@ -12,6 +12,8 @@ class Solution {
         //base condition
         if(index >= nums.length)
         {
+            //if you directly add ds , any change in later backtracking will affect the ds added in result 
+            //thats why you need to add a copy of ds
             result.add(new ArrayList<>(ds));
             return;
         }
