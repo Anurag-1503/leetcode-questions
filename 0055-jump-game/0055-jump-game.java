@@ -1,15 +1,33 @@
 class Solution {
+    int[] memo;
     public boolean canJump(int[] nums) {
-        int lastgoodIndexPosition = nums.length -1;
         
-        for(int i= nums.length -1 ; i>= 0 ; i--)
-        {
-            if(i+nums[i]>=lastgoodIndexPosition)
+        memo = new int[nums.length];
+        Arrays.fill(memo, -1);
+        return helper(0,nums);
+    }
+    
+    public boolean helper(int index , int[] nums){
+        
+        if(index == nums.length - 1)
+            return true;
+        
+        if(memo[index] != -1)
+            return (memo[index] == 1);
+        //calculate the maximum jump from current index
+        //we have to ensure that the maximum jump should be less than nums.length
+        int maxJump = Math.min(index + nums[index] , nums.length - 1);
+        
+        
+        for(int position = index + 1 ; position <= maxJump ; position++){
+            if(helper(position , nums))
             {
-                lastgoodIndexPosition =i;
+                memo[position] = 1; 
+                return true;
             }
-            
+                
         }
-        return lastgoodIndexPosition ==0;
+        memo[index] = 0;
+        return false;
     }
 }
