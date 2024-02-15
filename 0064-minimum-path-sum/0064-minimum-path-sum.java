@@ -1,38 +1,33 @@
-class Solution 
-{
-    public int minPathSum(int[][] grid) 
-    {
-        int m = grid.length;//row
-        int n = grid[0].length;//column
+class Solution {
+    int[][] memo;
+    public int minPathSum(int[][] grid) {
         
-       
-        int[][] dp = new int[m][n];
+        int rows = grid.length;
+        int cols = grid[0].length;
         
+        memo = new int[rows][cols];
+        for(int[] row : memo)
+            Arrays.fill(row , -1);
+        return helper(0,0,rows,cols,grid);
         
+    }
+    
+    public int helper(int i , int j ,  int rows , int cols , int[][] grid){
         
-        dp[0][0] = grid[0][0];
-        for(int i = 0;i < m;i++){
-            for(int j = 0;j < n; j++){
-                if(i == 0 && j == 0) dp[i][j] = grid[i][j];
-                else{
-                    int up = grid[i][j];
-                    if(i>0)
-                        up+=dp[i-1][j];
-                    else
-                        up+=(int)Math.pow(10,9);
-                    
-                    int left = grid[i][j];
-                    if(j>0)
-                        left+=dp[i][j-1];
-                    else
-                        left+=(int)Math.pow(10,9);
-                    
-                    dp[i][j] = Math.min(up,left);
-                
-                    
-                }
-            }
+        if(i >= rows || j >= cols)
+            return Integer.MAX_VALUE;
+        
+        if(i == rows - 1 && j == cols - 1)
+        {
+            return grid[i][j];
         }
-        return dp[m-1][n-1];
+        
+        if(memo[i][j] != -1)
+            return memo[i][j];
+        
+        int down = helper(i+1,j,rows,cols,grid);
+        int right = helper(i,j+1,rows,cols,grid);
+        
+        return memo[i][j] = grid[i][j] + Math.min(down , right);
     }
 }
