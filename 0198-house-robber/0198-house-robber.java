@@ -1,22 +1,29 @@
 class Solution {
+    int[] memo ;
     public int rob(int[] nums) {
         
-        int[] dp = new int[nums.length];
-        Arrays.fill(dp,-1);
-        
-        return robRec(nums,nums.length-1,dp);
+        memo = new int[nums.length];
+        Arrays.fill(memo , -1);
+        int n = nums.length - 1;
+        return helper(n,nums);
         
     }
     
-    public int robRec(int[] nums, int n, int[] dp){
-        if(n<0) {
-            return 0;
-        }
-        if(n==0) return nums[n];
+    public int helper(int index , int[] nums){
+        if(index == 0)
+            return nums[index];
         
-        if(dp[n]!=-1) return dp[n];
-        int rob = nums[n] + robRec(nums, n-2,dp);
-        int dont = robRec(nums, n-1,dp);
-        return dp[n] = Math.max(rob , dont);
+        if(index < 0)
+            return 0;
+        
+        if(memo[index] != -1)
+            return memo[index];
+        
+        int pick = nums[index] + helper(index - 2 , nums);
+        int notpick = 0 + helper(index - 1 , nums);
+        
+        memo[index] = Math.max(pick , notpick);
+        
+        return memo[index];
     }
 }
