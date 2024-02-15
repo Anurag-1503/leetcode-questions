@@ -1,22 +1,39 @@
 class Solution {
+    int[] memo;
+
     public int rob(int[] nums) {
-        if(nums.length == 0) return 0;
-        if(nums.length == 1) return nums[0];
-        if(nums.length == 2) return Math.max(nums[0], nums[1]);
-        
-        int lastHouse = nums.length - 1;
-        return Math.max(findMaxRob(0, lastHouse - 1, nums), findMaxRob(1, lastHouse, nums));
+        int n = nums.length;
+
+        if (n == 0)
+            return 0;
+        if (n == 1)
+            return nums[0];
+
+        memo = new int[n];
+        Arrays.fill(memo , -1);
+
+        int first = helper(nums, 0, n - 2); // exclude last house
+        Arrays.fill(memo , -1);
+        int last = helper(nums, 1, n - 1); // exclude first house
+
+        return Math.max(first, last);
     }
-    private int findMaxRob(int first, int lastHouse, int[] nums) {
-        int prev2 = nums[first];
-        int prev = Math.max(nums[first], nums[first + 1]);
-        
-        for(int i=first+2 ;i<=lastHouse ;i++) {
-            int currRob = Math.max(nums[i] + prev2, prev);
-            
-            prev2 = prev;
-            prev = currRob;
-        }
-        return prev;
+
+    public int helper(int[] nums, int index, int end) {
+        if (index == end)
+            return nums[index];
+
+        if (index > end)
+            return 0;
+
+        if (memo[index] != -1)
+            return memo[index];
+
+        int pick = nums[index] + helper(nums, index + 2, end);
+        int notpick = helper(nums, index + 1, end);
+
+        memo[index] = Math.max(pick, notpick);
+
+        return memo[index];
     }
 }
