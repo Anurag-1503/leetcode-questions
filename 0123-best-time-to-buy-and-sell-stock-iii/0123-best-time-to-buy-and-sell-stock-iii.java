@@ -1,53 +1,51 @@
 class Solution {
-    public int maxProfit(int[] prices) {
-            
-        int profit = 0;
-        int n =prices.length;
-        
-        
-        int[][][] dp = new int[prices.length+1][2+1][3+1];
-        for(int[][] rows2 : dp){
-            for(int[] rows1 : rows2)
-            Arrays.fill(rows1,0);
-         }
-        
     
-        //base case 1: for cap == 0 , ind and buy can be anything
-        for(int index = n-1;index>=0;index--){
-            for(int buy = 0; buy<=1;buy++){
-                dp[index][buy][0] = 0;
-            }
+    int[][][] memo;
+    public int maxProfit(int[] prices) {
+        
+        //2 as column because canBuy have only 2 values , 1 or 0
+        //3 as third dimension because we can at most have 2 transactions
+        memo = new int[prices.length][2][3];
+        for(int[][] rows2 : memo){
+            for(int[] rows1 : rows2)
+            Arrays.fill(rows1,-1);
+        }
+       //0 indicates that you have space to buy
+        //1 indicates that you are full and cant buy
+        return helper(0,prices,0,0);
+    }
+    
+    public int helper(int index , int[] arr , int canBuy , int max)
+    {
+        if(index == arr.length)
+            return 0;
+        
+        if(max == 2)
+            return 0;
+        
+        if(memo[index][canBuy][max] != -1)
+            return memo[index][canBuy][max];
+            
+        int take = 0;
+        int nottake = 0;
+        //you can buy
+        if(canBuy == 0) {
+            //you can either buy or skip
+            //also make canBuy = 1 so that you can indicate that you are not allowed to buy in next days , you have to sell it first
+             take = -arr[index] + helper(index+1,arr,1,max);
+            //if you skip , you can buy on next day
+             nottake = 0 + helper(index+1,arr,0,max);
+        }
+        //you cant buy as you already have a stock to sell
+        else
+        {
+            //either you sell it or skip it
+            //change canBuy to 0 to show that you have sold the share and can buy on next day
+             take = arr[index] + helper(index+1,arr,0,max+1);
+            //or you skip it but cant buy on next day
+             nottake = 0 + helper(index+1,arr,1,max);
         }
         
-        //base case 2: for index == n, buy and cap can be anything
-        for(int buy = 0; buy <= 1; buy++){
-            for(int cap = 0;cap<=2;cap++){
-                dp[n][buy][cap] = 0;
-            }
-        }
-        
-        for(int ind = n-1; ind>=0;ind--){
-            for(int buy = 0; buy <= 1; buy++){
-                //cap starts from 1 because in base case for cap =0,everything already is calculated
-                for(int cap = 1; cap <= 2;cap++){
-                    if(buy == 1){
-                        dp[ind][buy][cap]= Math.max(-prices[ind] + dp[ind+1][0][cap], 0 + dp[ind+1][1][cap]);
-        }
-        
-         //or you can sell/don't sell
-                    else{
-                        dp[ind][buy][cap]= Math.max(prices[ind] + dp[ind+1][1][cap-1] ,0 + dp[ind+1][0][cap]);
-        }
-                }
-            }
-        }
-      
-        
-        
-        //either you can buy/don't buy
-        
-        
-        
-        return  dp[0][1][2];
+        return memo[index][canBuy][max] = Math.max(take, nottake);
     }
 }
