@@ -1,22 +1,21 @@
 class Solution {
     public int maxProfit(int[] prices) {
-        
-        int buydate = 0;
-        int selldate = 0;
-        int profit = 0;
-        
-        for(int i = 1; i < prices.length; i++)
-        {
-            if(prices[i]>=prices[i-1]){
-                selldate++;
-            }else{
-                profit += prices[selldate] -prices[buydate];
-                buydate = selldate = i;
+        int min = prices[0];
+        int currProfit = 0;
+        int totalProfit = 0;
+
+        for (int i = 1; i < prices.length; i++) {
+            if (prices[i] > prices[i - 1]) {
+                currProfit += prices[i] - prices[i - 1];
+            } else {
+                totalProfit += currProfit;
+                currProfit = 0;
+                min = prices[i]; // Update min for the next potential buy point
             }
         }
-        
-        profit += prices[selldate] -prices[buydate];
-        return profit;
-        
+
+        totalProfit += currProfit; // Add any remaining profit
+
+        return totalProfit;
     }
 }
