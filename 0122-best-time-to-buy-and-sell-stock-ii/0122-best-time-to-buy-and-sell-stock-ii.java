@@ -15,7 +15,7 @@ class Solution {
     
     public int helper(int index , int[] arr , int canBuy)
     {
-        if(index == arr.length)
+        if(index >= arr.length)
             return 0;
         
         if(memo[index][canBuy] != -1)
