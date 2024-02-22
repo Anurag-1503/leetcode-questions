@@ -1,30 +1,34 @@
 class Solution {
-    int[][] memo;
+    
+    int memo[][];
     public int minimumTotal(List<List<Integer>> triangle) {
+    
         
-        int rows = triangle.size();
-        
-        memo = new int[rows][rows];
+        memo = new int[triangle.size()][triangle.size()];
         for(int[] row : memo)
             Arrays.fill(row , -1);
-        return helper(0,0,rows-1,triangle);
+        return helper(0,0,triangle);
         
     }
     
-    public int helper(int i , int j , int rows , List<List<Integer>> triangle){
+    public int helper(int i , int j , List<List<Integer>> triangle) {
         
-        if(i == rows)
-            return triangle.get(rows).get(j);
         
-        //we can only move diagnol-right and downwards so there wont be any out-of-bound condition for j
+        if(i >= triangle.size())
+            return 0;
         
+        if(i == triangle.size() -1)
+            return triangle.get(i).get(j);
         
         if(memo[i][j] != -1)
             return memo[i][j];
         
-        int down = triangle.get(i).get(j) + helper(i+1,j,rows,triangle);
-        int downRight = triangle.get(i).get(j) + helper(i+1,j+1,rows,triangle);
+        int down = helper(i+1,j,triangle);
+        int diagnol = helper(i+1,j+1,triangle);
         
-        return memo[i][j] = Math.min(down , downRight);
+        return memo[i][j] = triangle.get(i).get(j) + Math.min(down , diagnol);
+        
+        
+        
     }
 }
