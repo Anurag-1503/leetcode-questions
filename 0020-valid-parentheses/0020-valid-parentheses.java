@@ -1,27 +1,34 @@
 class Solution {
     public boolean isValid(String s) {
         
-        Stack<Character> stack = new Stack<>();
+        Stack<Character> st = new Stack<>();
         
-        for(int i = 0 ; i < s.length() ; i++){
-            
-            char ch = s.charAt(i);
-            if(ch == '(' ||ch == '{' ||ch == '[' )
-                stack.push(ch);
-            else{
-                //check if stack is empty or not before popping element
-                if(stack.isEmpty())
+        for(int i = 0 ; i < s.length() ; i++)
+        {
+            char curr = s.charAt(i);
+            //if it is opening parentheses , just push it in stack
+            if(curr == '(' || curr == '{' || curr == '[')
+                st.push(curr);
+            else 
+            {
+                if(st.isEmpty())
                     return false;
-                char top = stack.peek();
-                if((ch == ')' && top == '(') || (ch == ']' && top == '[') || (ch == '}' && top == '{'))
-                    stack.pop();
+                //check if corresponding opening parentheses is available for closing parantheses in stack or not
+                else if(curr == ')' && st.peek() == '(')
+                    st.pop();
+                else if(curr == ']' && st.peek() == '[')
+                    st.pop();
+                else if(curr == '}' && st.peek() == '{')
+                    st.pop();
                 else
                     return false;
+                
+               
             }
         }
         
-        return stack.isEmpty();
-        
+        //if stack is empty , then string is valid
+        return st.isEmpty();
         
     }
 }
