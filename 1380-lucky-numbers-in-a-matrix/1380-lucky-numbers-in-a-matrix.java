@@ -1,40 +1,38 @@
 class Solution {
     public List<Integer> luckyNumbers (int[][] matrix) {
         
-        // Find the minimum element from each row and put them in a list
-        List<Integer> min = new ArrayList<>();
-        for (int i = 0; i < matrix.length; i++) {
-            int minimum = Integer.MAX_VALUE;
-            for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j] < minimum) {
-                    minimum = matrix[i][j];
-                }
+        //first find the minimum element of each row and store it in a separate list
+        List<Integer> minimum = new ArrayList<>();
+        
+        for(int i = 0 ; i < matrix.length; i++) {
+            int min = Integer.MAX_VALUE;
+            for(int j = 0 ; j < matrix[0].length ; j++) {
+                min = Math.min(min , matrix[i][j]);
             }
-            min.add(minimum);
+            minimum.add(min);
         }
         
-        // Find the maximum elements from each column and put them in a list
-        List<Integer> max = new ArrayList<>();
-        for (int j = 0; j < matrix[0].length; j++) {
-            int maximum = Integer.MIN_VALUE;
-            for (int i = 0; i < matrix.length; i++) {
-                if (matrix[i][j] > maximum) {  // Fix: Corrected index to matrix[i][j]
-                    maximum = matrix[i][j];
-                }
+        //Now find the Maximum element of each column and store it in a separate list
+        List<Integer> maximum = new ArrayList<>();
+        
+        for(int j = 0 ; j < matrix[0].length; j++) {
+            int max = Integer.MIN_VALUE;
+            for(int i = 0 ; i < matrix.length ; i++) {
+                max = Math.max(max , matrix[i][j]);
             }
-            max.add(maximum);
+            maximum.add(max);
         }
         
-        // Find the common elements and put them in a separate list
-        List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < min.size(); i++) {
-            for (int j = 0; j < max.size(); j++) {
-                if (min.get(i).equals(max.get(j))) {
-                    result.add(min.get(i));
+        //now find the common element in both these lists and add it in result list
+        List<Integer> res = new ArrayList<>();
+        for(int val1 : minimum) {
+            for(int val2 : maximum) {
+                if(val1 == val2) {
+                    res.add(val1);
                 }
             }
         }
+        return res;
         
-        return result;
     }
 }
