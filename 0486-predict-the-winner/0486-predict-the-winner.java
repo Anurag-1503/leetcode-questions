@@ -1,26 +1,28 @@
 class Solution {
     public boolean predictTheWinner(int[] nums) {
-    
-        int totalSum = 0;
-        for(int i = 0 ; i < nums.length ; i++){
-            totalSum += nums[i];
-        }
-        int p1_score = helper(0,nums.length-1,nums);
-        int p2_score = totalSum - p1_score;
         
-        return p1_score>=p2_score;
+        int n = nums.length;
+        
+        int total = 0;
+        for(int val : nums)
+            total += val;
+        
+        int p1 = solve(0,n-1,nums);
+        int p2 = total - p1;
+        
+        return p1>=p2 ? true : false;
+        
     }
     
-    public int helper(int first , int last , int[] nums){
+    public int solve(int start , int end , int[] nums) {
         
-        if(first>last){
+        if(start > end) {
             return 0;
         }
         
-        int take_first = nums[first] + Math.min(helper(first + 2, last , nums) , helper(first + 1 , last - 1 , nums));
-        int take_last = nums[last] + Math.min(helper(first + 1 , last - 1 , nums) , helper(first , last - 2 , nums));
+        int takeStart = nums[start] + Math.min(solve(start+2 ,end ,nums) , solve(start+1 ,end-1 ,nums));
+        int takeEnd = nums[end] + Math.min(solve(start+1 ,end-1 ,nums) , solve(start ,end-2 ,nums));
         
-        return Math.max(take_first , take_last);
-        
+        return Math.max(takeStart,takeEnd);
     }
 }
