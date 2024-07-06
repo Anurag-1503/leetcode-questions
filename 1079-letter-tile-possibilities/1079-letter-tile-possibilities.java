@@ -1,22 +1,26 @@
 class Solution {
     int count = 0;
-
-    public void traverse(char theArray[], boolean used[]) {
-        count++; // count the number of sub-permutation
-        for(int i = 0; i < theArray.length; i++) {
-            //removing duplicates
-            if( used[i] || (i > 0 && theArray[i] == theArray[i - 1] && !used[i - 1]) ) 
-                continue;
-            used[i] = true;
-            traverse(theArray, used);
-            used[i] = false;
-        }
-    }
-
     public int numTilePossibilities(String tiles) {
-        char theArray[] = tiles.toCharArray(); 
-        Arrays.sort(theArray); 
-        traverse(theArray, new boolean[theArray.length]);
-        return count - 1;
+        
+        boolean visited[] = new boolean[tiles.length()];
+        char arr[] = tiles.toCharArray();
+        Arrays.sort(arr);
+        helper(arr, visited);
+        return count-1; //-1 to remove the empty sequence
+        
+    }
+    
+    public void helper(char[] arr , boolean[] visited) {
+        count++;
+        
+        for(int i = 0; i < arr.length ; i++) {
+            
+            if( (i>0 && arr[i] == arr[i-1] && !visited[i-1]) || visited[i] )
+                continue;
+            
+            visited[i] = true;
+            helper(arr,visited);
+            visited[i] = false;
+        }
     }
 }
