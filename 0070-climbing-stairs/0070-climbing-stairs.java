@@ -1,31 +1,20 @@
 class Solution {
-    // Create an array to store the memoized results
-    private int[] memo;
-
     public int climbStairs(int n) {
-        // Initialize the memo array with -1 (indicating no memoization)
-        memo = new int[n + 1];
-        Arrays.fill(memo, -1);
-
-        // Call the helper function with memoization
-        return climbStairsHelper(n);
+        
+        int[] memo = new int[n+1];
+        Arrays.fill(memo , -1);
+        return helper(n,memo);
+        
     }
-
-    private int climbStairsHelper(int n) {
-        // Base cases
-        if (n <= 3) {
+    public int helper(int n , int[] memo) {
+        
+        if(n <= 3)
             return n;
-        }
-
-        // Check if result is already memoized
-        if (memo[n] != -1) {
+        
+        if(memo[n] != -1)
             return memo[n];
-        }
-
-        // Calculate and memoize the result
-        memo[n] = climbStairsHelper(n - 1) + climbStairsHelper(n - 2);
-
-        // Return the memoized result
+        
+        memo[n] = helper(n-1,memo) + helper(n-2 , memo);
         return memo[n];
     }
 }
