@@ -2,27 +2,30 @@ class Solution {
     
     int[][] memo;
     public int uniquePaths(int m, int n) {
-     
         memo = new int[m][n];
         for(int[] row : memo)
             Arrays.fill(row , -1);
-        return countPaths(0,0,m,n);
-        
+        return helper(0,0,m,n);
     }
     
-    public int countPaths(int i, int j , int rows , int cols){
+    public int helper(int start_r , int start_c , int rows , int cols){
         
-        //if pointers reaches bottom right(finish)
-        if(i == (rows-1) && j == (cols-1))
-            return 1;
         
-        //if they exceed the boundaries
-        if(i >= rows || j >= cols)
+        if(start_r == (rows-1) && start_c == (cols-1))
+           return 1;
+        
+        if(start_r >= rows || start_c >= cols)
             return 0;
         
-        if(memo[i][j] != -1)
-            return memo[i][j]; 
+        if(memo[start_r][start_c] != -1)
+            return memo[start_r][start_c];
         
-        return memo[i][j] = countPaths(i+1,j,rows,cols) + countPaths(i,j+1,rows,cols);
+        //move in all possible directions
+        //downward
+        int down = helper(start_r + 1, start_c , rows, cols);
+        int right = helper(start_r , start_c + 1 , rows , cols);
+        
+        memo[start_r][start_c] = down+right;
+        return memo[start_r][start_c];
     }
 }
