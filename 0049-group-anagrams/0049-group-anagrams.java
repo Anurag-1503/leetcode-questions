@@ -1,22 +1,35 @@
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
         
-        //O(m * nlog(n)) where O(m) to iterate in array and O(nlogn) to sort
-        Map<String , List<String>> map = new HashMap<>();
+    Map<String , List<String>> map = new HashMap<>();
+     
+     for(String s : strs){
+         
+        String newS = generate(s);
+        if(!map.containsKey(newS))
+            map.put(newS , new ArrayList<>());
+        map.get(newS).add(s);
+     }
+     
+     return new ArrayList<>(map.values());
+    }
+    
+     public static String generate(String s){
+        int[] count = new int[26];
         
-        for(String s : strs){
-            
-            char[] charArray = s.toCharArray();
-            Arrays.sort(charArray);
-            String sorted = new String(charArray);
-            
-            //check if its already there in the map
-             if(!map.containsKey(sorted)) {
-                map.put(sorted, new ArrayList<>());  // Add new list if key doesn't exist
-            }
-            map.get(sorted).add(s); 
+        for(char ch : s.toCharArray()){
+            count[ch - 'a']++;
         }
         
-        return new ArrayList<>(map.values());
+        StringBuilder newS = new StringBuilder();
+        
+        for(int i = 0 ; i < 26 ; i++){
+            if(count[i] > 0)
+            {
+                newS.append(String.valueOf((char)(i+'a')).repeat(count[i]));
+            }
+        }
+        
+        return newS.toString();
     }
 }
