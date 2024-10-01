@@ -3,19 +3,20 @@ class Solution {
         
         List<Integer> res = new ArrayList<>();
         
-        for(int i = num.length -1 ; i >=0 ; i--) {
-            //add k to last index , and place only unit place digit in that last index , rest take it as k
+        for(int i = num.length - 1 ; i >= 0 ; i--) {
+            //add k to last element of array and then place only unit digit
             res.add(0,(num[i]+k)%10);
-            //update k
+            //then update k
             k = (num[i]+k)/10;
-        }
-        //check if k is still remaining , if yes , then add it to 0th index
-        while(k>0) {
-            res.add(0,k%10);
-            k=k/10;
-        }
             
-        return res;
+        }
         
+        //check if k still holds some value or not
+        while(k > 0) {
+            res.add(0,k%10);
+            //again update k
+            k = k/10;
+        }
+        return res;
     }
 }
