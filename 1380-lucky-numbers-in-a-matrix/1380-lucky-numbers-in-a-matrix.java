@@ -1,36 +1,35 @@
 class Solution {
-    public List<Integer> luckyNumbers (int[][] matrix) {
+    public List<Integer> luckyNumbers(int[][] matrix) {
         
-       List<Integer> res = new ArrayList<>();
-
-        // Iterate through each row
-        for (int i = 0; i < matrix.length; i++) {
-            // Find the minimum element in the current row and its column index
+        //first find minimum element from each row
+        
+        List<Integer> min_arr = new ArrayList<>();
+        for(int i = 0 ; i < matrix.length; i++) {
             int min = Integer.MAX_VALUE;
-            int minIndex = -1;
-            for (int j = 0; j < matrix[0].length; j++) {
-                if (matrix[i][j] < min) {
-                    min = matrix[i][j];
-                    minIndex = j;
-                }
+            for(int j = 0 ; j < matrix[i].length ; j++) {
+                min = Math.min(min , matrix[i][j]);
             }
-
-            // Check if the found minimum element is the maximum in its column
-            boolean isMaxInColumn = true;
-            for (int k = 0; k < matrix.length; k++) {
-                if (matrix[k][minIndex] > min) {
-                    isMaxInColumn = false;
-                    break;
-                }
+            min_arr.add(min);
+        }
+        
+        List<Integer> max_arr = new ArrayList<>();
+        for(int i = 0 ; i < matrix[0].length; i++) {
+            int max = Integer.MIN_VALUE;
+            for(int j = 0 ; j < matrix.length ; j++) {
+                max = Math.max(max , matrix[j][i]);
             }
-
-            // If the minimum element in the row is also the maximum in its column, it's a lucky number
-            if (isMaxInColumn) {
-                res.add(min);
+            max_arr.add(max);
+        }
+        
+        List<Integer> res_arr = new ArrayList<>();
+        for(int val1 : min_arr){
+            for(int val2 : max_arr){
+                if(val1 == val2)
+                    res_arr.add(val1);
             }
         }
-
-        return res;
+        
+        return res_arr;
         
     }
 }
