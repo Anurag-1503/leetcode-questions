@@ -1,33 +1,55 @@
 class Solution {
     public boolean findRotation(int[][] mat, int[][] target) {
         
-        if(Arrays.deepEquals(mat, target))
-            return true;
-        
         int n = mat.length;
-        int[][] rotatedMat = mat;
-        
-        for(int i = 0 ; i < 3 ; i++) {
-            rotatedMat = rotate90Clockwise(rotatedMat , n);
-            if(Arrays.deepEquals(rotatedMat , target))
+        for(int i = 0 ; i < 4 ; i++) {
+            if(check(mat ,target))
                 return true;
+            rotate90(mat,n,n);
         }
         
-       
-    return false;
+        return false;
         
     }
+    
+    public boolean check(int[][] mat , int[][] target) {
         
-      public int[][] rotate90Clockwise(int[][] mat, int n) {
-        int[][] newMat = new int[n][n];
-        
-        // Rotate the matrix by 90 degrees clockwise
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                newMat[j][n - 1 - i] = mat[i][j];
+        for(int i = 0 ; i < mat.length ; i++) {
+            for(int j = 0 ; j < mat[0].length ; j++) {
+                if(mat[i][j] != target[i][j])
+                    return false;
             }
         }
-
-        return newMat;
+        return true;
+    }
+    
+    public void rotate90(int[][] mat , int rows , int cols) {
+        
+        
+        //First we transpose this matrix , i.e. swap elements of upper triangle with elements of lower triangle
+        
+        for(int i = 0 ; i < rows ; i++) {
+            for(int j = i ; j < cols ; j++) {
+                int temp = mat[i][j];
+                mat[i][j] = mat[j][i];
+                mat[j][i] = temp;
+            }
+        }
+        
+        //then we mirror the matrix 
+        
+        int start = 0;
+        int end = cols-1;
+        
+        while(start <= end) {
+            for(int r = 0 ; r < rows ; r++) {
+                int temp = mat[r][start];
+                mat[r][start] = mat[r][end];
+                mat[r][end] = temp;    
+            }
+            start++;
+            end--;
+        }
+            
     }
 }
