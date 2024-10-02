@@ -1,13 +1,15 @@
 class Solution {
     public int[] sumZero(int n) {
         
-        int[] res = new int[n];
+        int[] arr = new int[n];
         
-        for(int i = 0 ; i < n-1 ; i+=2) {
-            res[i] = i+1;
-            res[i+1] = -i-1;
+        for(int i = 1 ; i < n ; i++) {
+            arr[i-1] = i;
+            arr[i] = -i;
+            i++;
         }
-        return res;
+        
+        return arr;
         
     }
 }
