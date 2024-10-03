@@ -4,30 +4,29 @@ class Solution {
         int rows = mat.length;
         int cols = mat[0].length;
         
-        if(r * c != rows * cols)
+        
+        //breaks the rule
+        if((rows*cols) != (r*c))
             return mat;
         
-        if(r == rows && c == cols)
-            return mat;
         
-        int[][] res_mat = new int[r][c];
-        int res_row = 0;
-        int res_col = 0;
+        int[][] res = new int[r][c];
+        int row_num = 0;
+        int col_num = 0;
         
         for(int i = 0 ; i < rows ; i++) {
             for(int j = 0 ; j < cols ; j++) {
-                res_mat[res_row][res_col] = mat[i][j];
-                res_col++;
+                res[row_num][col_num] = mat[i][j];
+                col_num++;
                 
-                if(res_col == c) {
-                    res_col = 0;
-                    res_row++;
+                if(col_num == c) {
+                    col_num = 0;
+                    row_num++;
                 }
             }
         }
         
         
-        return res_mat;
-        
+        return res;
     }
 }
