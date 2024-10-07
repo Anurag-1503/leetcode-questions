@@ -1,17 +1,24 @@
 class Solution {
     public int majorityElement(int[] nums) {
         
-        Map<Integer , Integer> map = new HashMap<>();
+        int candidate = 0;
+        int vote = 0;
         
         for(int val : nums) {
-            map.put(val , map.getOrDefault(val , 0) + 1);
             
-            if(map.get(val) > nums.length/2)
-                return val;
+            if(vote == 0)
+            {
+                candidate = val;
+                vote++;
+            }
                 
+            else if(val == candidate)
+                vote++;
+            else 
+                vote--;
         }
         
-        return -1;
+        return candidate;
         
     }
 }
