@@ -1,7 +1,6 @@
 class Solution {
     public int findMiddleIndex(int[] nums) {
-        int totalSum = 0;
-        int leftSum = 0;
+        int totalSum = 0, leftSum = 0;
         
         // Calculate total sum of the array
         for (int num : nums) {
@@ -10,9 +9,7 @@ class Solution {
         
         // Iterate through the array and check if current index is the middle index
         for (int i = 0; i < nums.length; i++) {
-            int rightSum = totalSum - leftSum - nums[i]; // Right sum is total sum minus left sum and current element
-            
-            if (leftSum == rightSum) {
+            if (leftSum == totalSum - leftSum - nums[i]) {
                 return i; // Found the middle index
             }
             
