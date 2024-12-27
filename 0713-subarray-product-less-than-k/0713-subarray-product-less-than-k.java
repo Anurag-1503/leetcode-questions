@@ -11,7 +11,7 @@ class Solution {
             
             product *= nums[end];
             
-            while(product >= k) {
+            while(start <= end && product >= k) {
                 product /= nums[start];
                 start++;
             }
